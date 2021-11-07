@@ -23,8 +23,8 @@ public class AddressBookCsvReaderWriter {
 		){
 			@SuppressWarnings("unchecked")
 			StatefulBeanToCsv<Contacts> beanToCsv=new StatefulBeanToCsvBuilder(writer)
-							   .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-							   .build();
+							.withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+							.build();
 			beanToCsv.write(contactList);
 		}
 	}

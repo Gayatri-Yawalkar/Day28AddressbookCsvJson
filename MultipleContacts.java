@@ -28,7 +28,7 @@ public class MultipleContacts {
 		Contacts c=null;
 		if(contactArrayList.size()>0) {
 			boolean check=contactArrayList.stream()
-						  .anyMatch(isDuplicate);
+				       .anyMatch(isDuplicate);
 			if(check) {
 				System.out.println("You Already have this contacts in address book");
 			} else {

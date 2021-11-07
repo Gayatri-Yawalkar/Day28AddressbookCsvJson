@@ -1,5 +1,5 @@
 package com.bridegelabz.addressbookcsv;
-//Uc14
+//Uc15
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,8 +42,10 @@ public class MultipleAddressBooks {
 		System.out.println("14.Print Contacts from File");
 		System.out.println("15.Write Contacts to CSV file");
 		System.out.println("16.Read Contacts from CSV file");
-		System.out.println("17.Quit");
-		System.out.println("Enter choice from 1 and 17");
+		System.out.println("17.Convert Contacts to Json");
+		System.out.println("18.Convert Json to Object");
+		System.out.println("19.Quit");
+		System.out.println("Enter choice from 1 and 19");
 		int choice=sc.nextInt();
 		return choice;
 	}
@@ -104,8 +106,8 @@ public class MultipleAddressBooks {
 		for(Map.Entry<String,MultipleContacts> m:addressBookMap.entrySet()) {
 			if(m.getValue().contactArrayList.size()>0) {
 				ArrayList<Contacts> stateWiseList=(ArrayList<Contacts>) m.getValue().contactArrayList.stream()
-				                                                       .filter(search)
-					                                       .collect(Collectors.toList());
+						  	       .filter(search)
+						  	       .collect(Collectors.toList());
 				Iterator<Contacts> i=stateWiseList.iterator();
 				while(i.hasNext()) {
 					Contacts c=(Contacts) i.next();
@@ -164,9 +166,9 @@ public class MultipleAddressBooks {
 		for(Map.Entry<String,MultipleContacts> m:addressBookMap.entrySet()) {
 			System.out.println(m.getValue().contactArrayList.size());
 			ArrayList<Contacts> c=(ArrayList<Contacts>) 
-					     m.getValue().contactArrayList.stream()
-					     .sorted(Comparator.comparing(Contacts::getState))
-					     .collect(Collectors.toList());
+					      m.getValue().contactArrayList.stream()
+					      .sorted(Comparator.comparing(Contacts::getState))
+					      .collect(Collectors.toList());
 			System.out.println(c.size());
 			for(int i=0;i<c.size();i++) {
 				System.out.println(c.get(i).firstLastName);
@@ -177,9 +179,9 @@ public class MultipleAddressBooks {
 		for(Map.Entry<String,MultipleContacts> m:addressBookMap.entrySet()) {
 			System.out.println(m.getValue().contactArrayList.size());
 			ArrayList<Contacts> c=(ArrayList<Contacts>) 
-					      m.getValue().contactArrayList.stream()
-					      .sorted(Comparator.comparing(Contacts::getZip))
-					      .collect(Collectors.toList());
+					     m.getValue().contactArrayList.stream()
+					     .sorted(Comparator.comparing(Contacts::getZip))
+					     .collect(Collectors.toList());
 			System.out.println(c.size());
 			for(int i=0;i<c.size();i++) {
 				System.out.println(c.get(i).firstLastName);
@@ -215,6 +217,7 @@ public class MultipleAddressBooks {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("Contacts Written Successfully");
 	}
 	public void readCsv() {
 		for(Map.Entry<String,MultipleContacts> m:addressBookMap.entrySet()) {
@@ -223,6 +226,17 @@ public class MultipleAddressBooks {
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	public void writeJson() {
+		for(Map.Entry<String,MultipleContacts> m:addressBookMap.entrySet()) {
+			new AddressBookJsonReaderWriter().toJsonFormat(m.getValue().contactArrayList,m.getKey());
+		}
+		System.out.println("Contacts Written Successfully");
+	}
+	public void readJson() {
+		for(Map.Entry<String,MultipleContacts> m:addressBookMap.entrySet()) {
+			new AddressBookJsonReaderWriter().fromJsonToObject(m.getKey());
 		}
 	}
 	public static void main(String[] args) {
@@ -281,10 +295,16 @@ public class MultipleAddressBooks {
 					mab.readCsv();
 					break;
 				case 17:
+					mab.writeJson();
+					break;
+				case 18:
+					mab.readJson();
+					break;
+				case 19:
 					flag=1;
 					break;
 				default:
-					System.out.println("You have Entered Wrong Choice.Please enter option between 1 to 17");
+					System.out.println("You have Entered Wrong Choice.Please enter option between 1 to 19");
 			}
 		}
 	}
